@@ -4,7 +4,8 @@ leaflet.draw
 Drawing handler and control for Leaflet
 
 
-== What ?
+What ?
+------
 
 This leaflet plugin provides two new elements for you maps :
 
@@ -13,7 +14,8 @@ This leaflet plugin provides two new elements for you maps :
 
 For now, this plugin allow drawing of polygon or polyline.
 
-== How ?
+How ?
+------
 
 Add a drawing control bar to the map
 
@@ -28,7 +30,8 @@ Enable drawing mode on a map
 map.draw.enable();
 ```
 
-== Where ?
+Where ?
+------
 
 Source code : https://github.com/brunob/leaflet.draw
 
