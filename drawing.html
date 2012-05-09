@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Draw</title>
+
+	<link rel="stylesheet" href="../dist/leaflet.css" />
+	<link rel="stylesheet" href="Control.Draw.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="../dist/leaflet.ie.css" /><![endif]-->
+
+	<link rel="stylesheet" href="../debug/css/screen.css" />
+
+	<script src="../debug/leaflet-include.js"></script>
+	<script src="Map.Draw.js"></script>
+	<script src="Control.Draw.js"></script>
+</head>
+<body>
+	<div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
+	
+	<script>
+		
+		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18}),
+			map = new L.Map('map', {layers: [cloudmade], center: new L.LatLng(48.5, -4.5), zoom: 8});
+		
+		// add drawing control bar to the map
+		drawControl = new L.Control.Draw();
+		map.addControl(drawControl);
+		
+	</script>
+</body>
+</html>
