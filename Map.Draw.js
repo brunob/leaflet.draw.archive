@@ -26,6 +26,7 @@ L.Map.Draw = L.Handler.extend({
 	},
 
 	removeHooks: function () {
+		this._map.fire("drawend", {poly: this._poly});
 		this._map.removeLayer(this._markerGroup);
 		delete this._markerGroup;
 		delete this._markers;
