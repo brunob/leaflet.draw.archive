@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+
+	<title>brunob/leaflet.draw @ GitHub</title>
+
+	<!-- Leaflet style. REQUIRED! -->
+	<link rel="stylesheet" href="http://ia601209.us.archive.org/23/items/LeafletCDN/dist/leaflet.css" />
+	<!--[if lte IE 8]>
+	<link rel="stylesheet" href="http://ia601209.us.archive.org/23/items/LeafletCDN/dist/leaflet.ie.css" />
+	<![endif]-->
+
+	<!-- page style -->
+	<style type="text/css">
+		body { margin-top: 1.0em; background-color: #444; font-family: Helvetica, Arial, FreeSans, san-serif; color: #ffffff; }
+		#container { margin: 0 auto; width: 700px; }
+		h1 { font-size: 3.8em; color: #809bc0; margin-bottom: 3px; }
+		h1 a { text-decoration: none }
+		h2 { font-size: 1.5em; color: #809bc0; }
+		h3 { text-align: center; color: #809bc0; }
+		a { color: #809bc0; }
+		.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+		.download { float: right; }
+		/* https://raw.github.com/brunob/leaflet.draw/master/Control.Draw.css */
+		.leaflet-control-draw { -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; }
+		.leaflet-control-draw { padding: 5px; background: rgba(0, 0, 0, 0.25); }
+		.leaflet-control-draw a { background-color: rgba(255, 255, 255, 0.75) }
+		.leaflet-control-draw a { background-position: 50% 50%; background-repeat: no-repeat; display: block; }
+		.leaflet-control-draw a { -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; width: 19px; height: 19px; }
+		.leaflet-control-draw a:hover { background-color: #fff }
+		.leaflet-touch .leaflet-control-draw a { width: 27px; height: 27px; }
+		.leaflet-control-draw-polyline { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-polyline.png); margin-bottom: 5px; }
+		.leaflet-control-draw-polygon { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-polygon.png) }
+	</style>
+
+    <script src="http://ia601209.us.archive.org/23/items/LeafletCDN/dist/leaflet.js"></script>
+    <script src="https://raw.github.com/brunob/leaflet.draw/master/Map.Draw.js"></script>
+    <script src="https://raw.github.com/brunob/leaflet.draw/master/Control.Draw.js"></script>
+
+</head>
+
+<body>
+	<a href="https://github.com/brunob/leaflet.draw"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+	<div id="container">
+
+		<h1><a href="https://github.com/brunob/leaflet.draw">leaflet.draw</a></h1>
+
+		<div class="download">
+			<a href="https://github.com/brunob/leaflet.draw/zipball/master">
+			<img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
+			<a href="https://github.com/brunob/leaflet.draw/tarball/master">
+			<img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
+		</div>
+
+		<div class="description">
+			<p>Drawing handler and control for Leaflet.</p>
+			<p>Get all the details at <a href="https://github.com/brunob/leaflet.draw">Github</a>.</p>
+		</div>
+
+		<div id="map" style="width: 700px; height: 600px; border: 1px solid #ccc"></div>
+
+		<h2>Dependencies</h2>
+		<p>Leaflet 0.4 (https://github.com/CloudMade/Leaflet)</p>
+
+	</div>
+
+	<script>
+
+		var acetateUrl = 'http://acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png',
+		acetate = new L.TileLayer(acetateUrl, {maxZoom: 18}),
+		map = new L.Map('map', {layers: [acetate], center: new L.LatLng(48.5, -4.5), zoom: 5});
+
+		// add drawing control bar to the map
+		drawControl = new L.Control.Draw();
+		map.addControl(drawControl);
+
+	</script>         
+
+</body>
+</html>
