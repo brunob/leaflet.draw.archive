@@ -30,6 +30,16 @@ Enable drawing mode on a map
 map.draw.enable();
 ```
 
+A drawend event is fired when the user finish is drawing, you can listen to this event like this
+
+```
+map.on('drawend', function(e) {
+	console.log(e.poly);
+});
+```
+
+The poly propertie of the event represent the polyline or polygon object drawn by the user.
+
 Where ?
 ------
 
