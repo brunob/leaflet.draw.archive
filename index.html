@@ -22,6 +22,8 @@
 		a { color: #809bc0; }
 		.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
 		.download { float: right; }
+		.erase { text-align: center; }
+		.erase a { padding-left: 20px; background: transparent url(bin.png) left 50% no-repeat; color: #bbb; text-decoration: none; }
 		/* https://raw.github.com/brunob/leaflet.draw/master/Control.Draw.css */
 		.leaflet-control-draw { -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; }
 		.leaflet-control-draw { padding: 5px; background: rgba(0, 0, 0, 0.25); }
@@ -37,6 +39,9 @@
     <script src="http://ia601209.us.archive.org/23/items/LeafletCDN/dist/leaflet.js"></script>
     <script src="https://raw.github.com/brunob/leaflet.draw/master/Map.Draw.js"></script>
     <script src="https://raw.github.com/brunob/leaflet.draw/master/Control.Draw.js"></script>
+    
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.total-storage.min.js"></script>
 
 </head>
 
@@ -55,26 +60,73 @@
 		</div>
 
 		<div class="description">
-			<p>Drawing handler and control for Leaflet.</p>
+			<p>Drawing handler and control for <a href="https://github.com/CloudMade/Leaflet">Leaflet 0.4</a>.</p>
 			<p>Get all the details at <a href="https://github.com/brunob/leaflet.draw">Github</a>.</p>
 		</div>
-
+		
+		<p class="erase"><a href="#" onclick="$.totalStorage('features', ''); map.setView( map.getCenter(), map.getZoom()); location.reload();">Delete saved features</a></p>
+		
 		<div id="map" style="width: 700px; height: 600px; border: 1px solid #ccc"></div>
 
-		<h2>Dependencies</h2>
-		<p>Leaflet 0.4 (https://github.com/CloudMade/Leaflet)</p>
+		<h2>About this demo</h2>
+		<p>This demo use <a href="http://upstatement.com/blog/2012/01/jquery-local-storage-done-right-and-easy/">jQuery totalStorage</a> for saving drawings on the client side.</p>
 
 	</div>
 
 	<script>
 
+		var storeFeature = function (e){
+			if ($.totalStorage('features'))
+				var features = $.totalStorage('features');
+			else
+				var features = new Array();
+			
+			if (L.Polygon && (e.poly instanceof L.Polygon))
+				var type = 'polygon';
+			else
+				var type = 'polyline';
+			
+			var latlngs = new Array();
+			
+			$.each(e.poly._latlngs, function(i) {
+				latlngs.push(e.poly._latlngs[i]);
+			});
+			
+			features.push({'type':type, 'latlngs':latlngs});
+			
+			$.totalStorage('features', features);
+		};
+		
+		var drawStoredFeatures = function (map){
+			var features;
+			if (features = $.totalStorage('features')){
+				$.each(features, function(i, feature) {
+					if (feature.type == 'polygon')
+						var poly = new L.Polygon([]);
+					else
+						var poly = new L.Polyline([]);
+					$.each(feature.latlngs, function(i, latlng) {
+						poly.addLatLng(new L.LatLng(latlng.lat, latlng.lng));
+					});
+					map.addLayer(poly);
+				});
+			}
+		};
+		
 		var acetateUrl = 'http://acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png',
-		acetate = new L.TileLayer(acetateUrl, {maxZoom: 18}),
-		map = new L.Map('map', {layers: [acetate], center: new L.LatLng(48.5, -4.5), zoom: 5});
+			acetate = new L.TileLayer(acetateUrl, {maxZoom: 18}),
+			map = new L.Map('map', {layers: [acetate], center: new L.LatLng(48.5, -4.5), zoom: 5});
+		
 
-		// add drawing control bar to the map
+		drawStoredFeatures(map);
+		
 		drawControl = new L.Control.Draw();
+
 		map.addControl(drawControl);
+		
+		map.on('drawend', function(e) {
+			storeFeature(e);
+		});
 
 	</script>         
 
