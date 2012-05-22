@@ -23,7 +23,11 @@
 	border-radius: 4px;
 	width: 19px;
 	height: 19px;
+	margin-top: 5px;
 	}
+.leaflet-control-draw a:first-child{
+	margin-top: 0px;
+} 	
 .leaflet-control-draw a:hover {
 	background-color: #fff;
 	}
@@ -31,10 +35,15 @@
 	width: 27px;
 	height: 27px;
 	}
+.leaflet-control-draw-marker {
+	background-image: url(draw-marker.png);
+	}	
 .leaflet-control-draw-polyline {
 	background-image: url(draw-polyline.png);
-	margin-bottom: 5px;
 	}
 .leaflet-control-draw-polygon {
 	background-image: url(draw-polygon.png);
 	}
+.leaflet-control-draw-rectangle {
+	background-image: url(draw-rectangle.png);
+	}		
