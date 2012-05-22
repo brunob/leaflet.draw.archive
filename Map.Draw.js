@@ -35,10 +35,12 @@ L.Map.Draw = L.Handler.extend({
 	},
 
 	removeHooks: function () {
+		
 		if(this._type == 'marker'){
 			this._map.fire("drawend", {marker: this._marker});
-			this._map.off('click', this._drawMarker);	
 			delete this._marker;
+			this._map.off('click', this._drawMarker);
+			
 		}else{
 			this._map.fire("drawend", {poly: this._poly});
 			this._map.removeLayer(this._markerGroup);
@@ -99,8 +101,8 @@ L.Map.Draw = L.Handler.extend({
 	},
 	
 	_drawMarker: function (e) {
-		this._marker = new L.Marker(e.latlng)
-		this.draw._map.addLayer(this._marker);
+		this.draw._marker = new L.Marker(e.latlng)
+		this.draw._map.addLayer(this.draw._marker);
 		this.draw.disable();
 	}
 	
