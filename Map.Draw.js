@@ -101,7 +101,7 @@ L.Map.Draw = L.Handler.extend({
 	},
 	
 	_drawMarker: function (e) {
-		this.draw._marker = new L.Marker(e.latlng)
+		this.draw._marker = new L.Marker(e.latlng);
 		this.draw._map.addLayer(this.draw._marker);
 		this.draw.disable();
 	}
