@@ -1,15 +1,21 @@
 L.Control.Draw = L.Control.extend({
 	options: {
-		position: 'topright'
+		position: 'topright',
+		drawMarker: true,
+		drawPolyline: true,
+		drawPolygon: true,
+		drawRectangle: true
 	},
 
 	onAdd: function (map) {
 		var className = 'leaflet-control-draw',
 		    container = L.DomUtil.create('div', className);
 
-		this._createButton('Draw a polyline', className + '-polyline', container, this._drawPolyline, map.draw);
-		this._createButton('Draw a polygon', className + '-polygon', container, this._drawPolygon, map.draw);
-
+		if(this.options.drawMarker) this._createButton('Draw a marker', className + '-marker', container, this._drawMarker, map.draw);
+		if(this.options.drawPolyline) this._createButton('Draw a polyline', className + '-polyline', container, this._drawPolyline, map.draw);
+		if(this.options.drawPolygon) this._createButton('Draw a polygon', className + '-polygon', container, this._drawPolygon, map.draw);
+		if(this.options.drawRectangle) this._createButton('Draw a rectangle', className + '-rectangle', container, this._drawRectangle, map.draw);
+		
 		return container;
 	},
 
@@ -25,6 +31,11 @@ L.Control.Draw = L.Control.extend({
 
 		return link;
 	},
+
+	_drawMarker: function () {
+		this.setType('marker');
+		this.enable();
+	},
 	
 	_drawPolyline: function () {
 		this.setType('polyline');
@@ -34,7 +45,12 @@ L.Control.Draw = L.Control.extend({
 	_drawPolygon: function () {
 		this.setType('polygon');
 		this.enable();
-	}
+	},
+	
+	_drawRectangle: function () {
+		this.setType('rectangle');
+		this.enable();
+	}	
 	
 });
 
