@@ -29,11 +29,16 @@
 		.leaflet-control-draw { padding: 5px; background: rgba(0, 0, 0, 0.25); }
 		.leaflet-control-draw a { background-color: rgba(255, 255, 255, 0.75) }
 		.leaflet-control-draw a { background-position: 50% 50%; background-repeat: no-repeat; display: block; }
-		.leaflet-control-draw a { -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; width: 19px; height: 19px; }
+		.leaflet-control-draw a { -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; width: 19px; height: 19px; margin-top: 5px; }
+		.leaflet-control-draw a:first-child { margin-top: 0px }
 		.leaflet-control-draw a:hover { background-color: #fff }
 		.leaflet-touch .leaflet-control-draw a { width: 27px; height: 27px; }
-		.leaflet-control-draw-polyline { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-polyline.png); margin-bottom: 5px; }
+		.leaflet-control-draw-marker { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-marker.png) }
+		.leaflet-control-draw-polyline { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-polyline.png) }
 		.leaflet-control-draw-polygon { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-polygon.png) }
+		.leaflet-control-draw-rectangle { background-image: url(https://raw.github.com/brunob/leaflet.draw/master/draw-rectangle.png) }
+
+		
 	</style>
 
     <script src="http://ia601209.us.archive.org/23/items/LeafletCDN/dist/leaflet.js"></script>
@@ -80,17 +85,21 @@
 				var features = $.totalStorage('features');
 			else
 				var features = new Array();
-			
-			if (L.Polygon && (e.poly instanceof L.Polygon))
-				var type = 'polygon';
-			else
-				var type = 'polyline';
-			
-			var latlngs = new Array();
-			
-			$.each(e.poly._latlngs, function(i) {
-				latlngs.push(e.poly._latlngs[i]);
-			});
+
+			if (L.Marker && (e.marker instanceof L.Marker)){
+				var type = 'marker';
+				var latlngs = e.marker._latlng;
+			} else {
+				if (L.Polygon && (e.poly instanceof L.Polygon)){
+					var type = 'polygon';
+				} else {
+					var type = 'polyline';
+				}
+				var latlngs = new Array();
+				$.each(e.poly._latlngs, function(i) {
+					latlngs.push(e.poly._latlngs[i]);
+				});
+			}
 			
 			features.push({'type':type, 'latlngs':latlngs});
 			
@@ -101,14 +110,19 @@
 			var features;
 			if (features = $.totalStorage('features')){
 				$.each(features, function(i, feature) {
-					if (feature.type == 'polygon')
-						var poly = new L.Polygon([]);
-					else
-						var poly = new L.Polyline([]);
-					$.each(feature.latlngs, function(i, latlng) {
-						poly.addLatLng(new L.LatLng(latlng.lat, latlng.lng));
-					});
-					map.addLayer(poly);
+					if (feature.type == 'marker'){
+						var geometry = new L.Marker(feature.latlngs);
+					} else {
+						if (this._type == 'polygon' || 'rectangle'){
+							var geometry = new L.Polygon([]);
+						} else {
+							var geometry = new L.Polyline([]);
+						}
+						$.each(feature.latlngs, function(i, latlng) {
+							geometry.addLatLng(new L.LatLng(latlng.lat, latlng.lng));
+						});
+					}
+					map.addLayer(geometry);
 				});
 			}
 		};
