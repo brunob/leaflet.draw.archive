@@ -8,13 +8,20 @@ L.Control.Draw = L.Control.extend({
 	},
 
 	onAdd: function (map) {
-		var className = 'leaflet-control-draw',
-		    container = L.DomUtil.create('div', className);
+	var drawName = 'leaflet-control-draw', //TODO
+		barName = 'leaflet-bar',
+		partName = barName + '-part',
+		container = L.DomUtil.create('div', drawName + ' ' + barName),
+		buttons = [];
 
-		if(this.options.drawMarker) this._createButton('Draw a marker', className + '-marker', container, this._drawMarker, map.draw);
-		if(this.options.drawPolyline) this._createButton('Draw a polyline', className + '-polyline', container, this._drawPolyline, map.draw);
-		if(this.options.drawPolygon) this._createButton('Draw a polygon', className + '-polygon', container, this._drawPolygon, map.draw);
-		if(this.options.drawRectangle) this._createButton('Draw a rectangle', className + '-rectangle', container, this._drawRectangle, map.draw);
+		if(this.options.drawMarker) buttons.push(this._createButton('Draw a marker', drawName + '-marker ' + partName, container, this._drawMarker, map.draw));
+		if(this.options.drawPolyline) buttons.push(this._createButton('Draw a polyline', drawName + '-polyline ' + partName, container, this._drawPolyline, map.draw));
+		if(this.options.drawPolygon) buttons.push(this._createButton('Draw a polygon', drawName + '-polygon ' + partName, container, this._drawPolygon, map.draw));
+		if(this.options.drawRectangle) buttons.push(this._createButton('Draw a rectangle', drawName + '-rectangle ' + partName, container, this._drawRectangle, map.draw));
+		
+		// Add in the top and bottom classes so we get the border radius
+		L.DomUtil.addClass(buttons[0], partName + '-top');
+		L.DomUtil.addClass(buttons[buttons.length - 1], partName + '-bottom');
 		
 		return container;
 	},
