@@ -1,1 +1,1 @@
-This plugin is obsolete, please use official Leaflet/Leaflet.draw
+This plugin is obsolete, please use official https://github.com/Leaflet/Leaflet.draw
