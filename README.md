@@ -1,0 +1,1 @@
+This plugin is obsolete, please use official Leaflet/Leaflet.draw
